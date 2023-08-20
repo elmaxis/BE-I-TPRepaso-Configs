@@ -1,10 +1,20 @@
 server:
-  port: 0
+  port: 8080
 
 spring:
   application:
-    name: playlist-service
+    name: gateway
 
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: playlistRoute
+          uri: lb://playlist-service/
+          predicates:
+            - Path=/playlist/**
 eureka:
   client:
     register-with-eureka: true
